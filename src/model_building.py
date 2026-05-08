@@ -3,10 +3,15 @@ import numpy as np
 import pandas as pd
 import pickle
 from sklearn.ensemble import RandomForestClassifier
-
 from logger import init_logging
+from read_params import load_params
+
 LOGGER = init_logging(logger_name=os.path.basename(__file__),
                       log_file_path=os.getcwd()+"/logs/log_file.log")
+
+
+
+PARAMS = load_params(os.path.join(os.getcwd()+"/params.yaml"))
 
 
 def load_data(file_path: str) -> pd.DataFrame:
@@ -42,7 +47,7 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray) -> RandomForestClassif
     try:
         if X_train.shape[0] != y_train.shape[0]:
             raise ValueError("The number of samples in X_train and y_train must be the same.")
-        params = {'n_estimators': 22, 'random_state': 2}
+        params = PARAMS['model_building']
         LOGGER.debug('Initializing RandomForest model with parameters: %s', params)
         clf = RandomForestClassifier(n_estimators=params['n_estimators'], random_state=params['random_state'])
         

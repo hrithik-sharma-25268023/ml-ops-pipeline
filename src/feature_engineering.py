@@ -3,10 +3,13 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from logger import init_logging
-
+from read_params import load_params
 
 LOGGER = init_logging(logger_name=os.path.basename(__file__),
                       log_file_path=os.getcwd()+"/logs/log_file.log")
+
+
+PARAMS = load_params(os.path.join(os.getcwd()+"/params.yaml"))
 
 
 def load_data(file_path: str) -> pd.DataFrame:
@@ -61,7 +64,7 @@ def save_data(df: pd.DataFrame, file_path: str) -> None:
 def main():
     try:
         
-        max_features=50
+        max_features= PARAMS['feature_engineering']['max_features']
         train_data = load_data('./data/interim/train_processed.csv')
         test_data = load_data('./data/interim/test_processed.csv')
 

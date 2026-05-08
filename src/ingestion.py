@@ -4,6 +4,9 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from logger import init_logging
+from read_params import load_params
+
+PARAMS = load_params(os.path.join(os.getcwd()+"/params.yaml"))
 
 
 LOGGER = init_logging(logger_name=os.path.basename(__file__),
@@ -54,7 +57,7 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 
 def main():
     try:
-        test_size = 0.2
+        test_size = PARAMS['data_ingestion']['test_size']
         data_path = 'https://raw.githubusercontent.com/vikashishere/Datasets/main/spam.csv'
         df = load_data(path=data_path)
         final_df = preprocess_data(df)
